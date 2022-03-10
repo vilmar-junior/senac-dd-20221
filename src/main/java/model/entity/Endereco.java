@@ -18,7 +18,9 @@ public class Endereco {
 		this.cidade = cidade;
 		this.uf = uf;
 		this.cep = cep;
+		this.numero = numero;
 	}
+	
 	public int getId() {
 		return id;
 	}
