@@ -24,9 +24,11 @@ public class Telefone {
 		this.ativo = ativo;
 	}
 
-
-
-
+	@Override
+	public String toString() {
+		return "(" + this.ddd + ") " + numero + " [" + (this.tipo == TIPO_FIXO ? "Fixo" : "Móvel") + "]"; 
+	}
+	
 	public int getId() {
 		return id;
 	}

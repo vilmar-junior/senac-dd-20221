@@ -8,18 +8,18 @@ public class Cliente {
 	private String nome;
 	private String cpf;
 	private Endereco endereco;
-	private List<Telefone> telefones;
+	private List<LinhaTelefonica> linhas;
 	
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(String nome, String cpf, Endereco endereco, List<Telefone> telefones) {
+	public Cliente(String nome, String cpf, Endereco endereco, List<LinhaTelefonica> linhas) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.endereco = endereco;
-		this.telefones = telefones;
+		this.linhas = linhas;
 	}
 
 
@@ -56,11 +56,11 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 
-	public List<Telefone> getTelefones() {
-		return telefones;
+	public List<LinhaTelefonica> getLinhas() {
+		return linhas;
 	}
 
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
+	public void setLinhas(List<LinhaTelefonica> linhas) {
+		this.linhas = linhas;
 	}
 }
