@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.entity.Cliente;
 import model.entity.Telefone;
 
-public class TelefoneDAO {
+public class TelefoneDAO implements BaseDAO<Telefone> {
 	public Telefone inserir(Telefone novoTelefone) {
 		Connection conexao = Banco.getConnection();
 		String sql = " INSERT INTO TELEFONE(DDD, NUMERO, TIPO, ATIVO)" 
@@ -79,8 +80,25 @@ public class TelefoneDAO {
 	
 	public Telefone consultar(int id) {
 		Telefone telefoneConsultado = null;
-		//TODO implementar		
-		//SELECT * FROM TELEFONE WHERE ID = ?
+		Connection conexao = Banco.getConnection();
+		String sql = " SELECT * FROM TELEFONE "
+					+" WHERE ID=?";
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			if(resultado.next()) {
+				telefoneConsultado = new Telefone();
+				telefoneConsultado.setId(resultado.getInt("id"));
+				telefoneConsultado.setDdd(resultado.getString("ddd"));
+				telefoneConsultado.setNumero(resultado.getString("numero"));
+				telefoneConsultado.setTipo(resultado.getInt("tipo"));
+				telefoneConsultado.setAtivo(resultado.getBoolean("ativo"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar telefone (id:" + id + ". Causa:" + e.getMessage());
+		}
 		
 		return telefoneConsultado;
 	}

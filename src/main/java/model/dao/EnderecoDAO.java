@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.entity.Endereco;
+import model.entity.Telefone;
 
 public class EnderecoDAO {
 
@@ -83,8 +84,25 @@ public class EnderecoDAO {
 	
 	public Endereco consultar(int id) {
 		Endereco enderecoConsultado = null;
-		//TODO implementar		
-		//SELECT * FROM ENDERECO WHERE ID = ?
+		Connection conexao = Banco.getConnection();
+		String sql = " SELECT * FROM TELEFONE "
+					+" WHERE ID=?";
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			if(resultado.next()) {
+				enderecoConsultado = new Endereco();
+				enderecoConsultado.setId(resultado.getInt("id"));
+				enderecoConsultado.setRua(resultado.getString("rua"));
+				enderecoConsultado.setCidade(resultado.getString("numero"));
+				enderecoConsultado.setCep(resultado.getString("cep"));
+				enderecoConsultado.setUf(resultado.getString("uf"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar endereço (id:" + id + ". Causa:" + e.getMessage());
+		}
 		
 		return enderecoConsultado;
 	}
