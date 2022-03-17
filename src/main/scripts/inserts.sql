@@ -1,0 +1,4 @@
+INSERT INTO ENDERECO (RUA, CIDADE, UF, NUMERO, CEP) VALUES ('Felipe Schimdt', 'Florianópolis', 'SC', '1', '88005444');
+INSERT INTO ENDERECO (RUA, CIDADE, UF, NUMERO, CEP) VALUES ('Max Schramm', 'Florianópolis', 'SC', '3', '88005222');
+INSERT INTO ENDERECO (RUA, CIDADE, UF, NUMERO, CEP) VALUES ('Presidente Kennedy', 'São José', 'SC', '2', '88222444');
+INSERT INTO ENDERECO (RUA, CIDADE, UF, NUMERO, CEP) VALUES ('Nereu Ramos', 'Lages', 'SC', '105', '88555444');

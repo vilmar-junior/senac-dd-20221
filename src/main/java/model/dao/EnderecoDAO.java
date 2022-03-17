@@ -85,18 +85,20 @@ public class EnderecoDAO {
 	public Endereco consultar(int id) {
 		Endereco enderecoConsultado = null;
 		Connection conexao = Banco.getConnection();
-		String sql = " SELECT * FROM TELEFONE "
+		String sql = " SELECT * FROM ENDERECO "
 					+" WHERE ID=?";
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		
 		try {
+			stmt.setInt(1, id);
 			ResultSet resultado = stmt.executeQuery();
 			
 			if(resultado.next()) {
 				enderecoConsultado = new Endereco();
 				enderecoConsultado.setId(resultado.getInt("id"));
 				enderecoConsultado.setRua(resultado.getString("rua"));
-				enderecoConsultado.setCidade(resultado.getString("numero"));
+				enderecoConsultado.setNumero(resultado.getString("numero"));
+				enderecoConsultado.setCidade(resultado.getString("cidade"));
 				enderecoConsultado.setCep(resultado.getString("cep"));
 				enderecoConsultado.setUf(resultado.getString("uf"));
 			}
