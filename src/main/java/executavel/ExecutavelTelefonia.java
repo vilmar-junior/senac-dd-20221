@@ -1,10 +1,11 @@
 package executavel;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
+import model.dao.ClienteDAO;
 import model.dao.EnderecoDAO;
+import model.dao.LinhaTelefonicaDAO;
+import model.dao.TelefoneDAO;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
@@ -13,52 +14,39 @@ import model.entity.Telefone;
 public class ExecutavelTelefonia {
 
 	public static void main(String[] argumentos) {
-		testarCrudEndereco();
+//		testarCrudEndereco();
+//		testarCrudCliente();
+//		
+//		//TODO Exercicio
+//		testarCrudTelefone();
+		testarCrudLinhaTelefonica();
+	}
+
+	private static void testarCrudTelefone() {
+		// TODO Auto-generated method stub
 		
-//		List<Cliente> clientes = new ArrayList<Cliente>();
-//		
-//		Endereco endereco1 = new Endereco("Mauro Ramos", "10", "Florianópolis", 
-//				"SC", "88320-005"); 
-//		
-//		Telefone t1 = new Telefone("48", "3232-5555", Telefone.TIPO_FIXO, true);
-//		Telefone t2 = new Telefone("47", "3232-1010", Telefone.TIPO_MOVEL, true);
-//		LinhaTelefonica l1 = new LinhaTelefonica(t1, 10, LocalDateTime.now(), null);
-//		LinhaTelefonica l2 = new LinhaTelefonica(t2, 10, LocalDateTime.now(), null);
-//		
-//		List<LinhaTelefonica> linhasDoPele = new ArrayList<LinhaTelefonica>();
-//		linhasDoPele.add(l1);
-//		linhasDoPele.add(l2);
-//		
-//		Cliente pele = new Cliente("Edson Arantes", "01001011100", 
-//				endereco1, linhasDoPele);
-//		
-//		clientes.add(pele);
-//		
-//		for(LinhaTelefonica linha: pele.getLinhas()) {
-//			System.out.println(linha.getTelefone().toString());
-//		}
 	}
 
 	private static void testarCrudEndereco() {
 		//Violando o MVC, pois o main vai chamar a camada de modelo
-		
 		EnderecoDAO dao = new EnderecoDAO();
-		Endereco novo = new Endereco("Anita Garibaldi", "300", "Florianópolis", 
-				"SC", "88320005");
+		Endereco novo = new Endereco("Anita Garibaldi", "300", "Florianópolis", "SC", "88320005");
+
+		System.out.println("##Testes de CRUD de Endereço\n");
 		
 		System.out.println("#Teste de insert");
 		dao.inserir(novo);
-		
+
 		int idDoNovoEndereco = novo.getId();
 		System.out.println(idDoNovoEndereco > 0 ? "Salvou novo endereço" : "Não salvou");
-		
+
 		novo.setRua("Rua alterada");
-		
+
 		System.out.println("#Teste de update");
 		boolean atualizou = dao.atualizar(novo);
-		
+
 		System.out.println(atualizou ? "Endereço atualizado" : "Endereço NÃO atualizado");
-		
+
 		System.out.println("#Teste de select");
 		Endereco enderecoConsultado = dao.consultar(idDoNovoEndereco);
 		System.out.println("Endereço consultado por id (" + idDoNovoEndereco + "): " 
@@ -66,12 +54,69 @@ public class ExecutavelTelefonia {
 
 		System.out.println("#Teste de delete");
 		dao.remover(novo.getId());
-		
+
 		System.out.println("#Teste de select");
 		Endereco enderecoConsultadoAposRemocao = dao.consultar(idDoNovoEndereco);
 		System.out.println(enderecoConsultadoAposRemocao == null ? "Endereço não existe (ok)" : 
-			"Endereço não foi devidamente excluído");
-		//////////////
+				"Endereço não foi devidamente excluído");
+	}
+
+	private static void testarCrudCliente() {
+		//Violando o MVC, pois o main vai chamar a camada de modelo
+		ClienteDAO dao = new ClienteDAO();
+		EnderecoDAO enderecoDAO = new EnderecoDAO();
+		Cliente novo = new Cliente("Romário Souza", "21200022235", enderecoDAO.consultar(2), null);
+
+		System.out.println("##Testes de CRUD de Cliente\n");
+		System.out.println("#Teste de insert");
+		dao.inserir(novo);
+
+		int idDoNovoCliente = novo.getId();
+		System.out.println(idDoNovoCliente > 0 ? "Salvou novo cliente" : "Não salvou");
+
+		novo.setNome("Romário Souza 11");
+
+		System.out.println("#Teste de update");
+		boolean atualizou = dao.atualizar(novo);
+
+		System.out.println(atualizou ? "Cliente atualizado" : "Cliente NÃO atualizado");
+
+		System.out.println("#Teste de select");
+		Cliente clienteConsultado = dao.consultar(idDoNovoCliente);
+		System.out.println("Cliente consultado por id (" + idDoNovoCliente + "): " 
+				+ clienteConsultado.toString());
+
+		System.out.println("#Teste de delete");
+		dao.remover(novo.getId());
+
+		System.out.println("#Teste de select");
+		Cliente clienteConsultadoAposRemocao = dao.consultar(idDoNovoCliente);
+		System.out.println(clienteConsultadoAposRemocao == null ? "Cliente não existe (ok)" : 
+				"Cliente não foi devidamente excluído");
+	}
+
+	private static void testarCrudLinhaTelefonica() {
+		LinhaTelefonicaDAO linhaDAO = new LinhaTelefonicaDAO();
+		TelefoneDAO telefoneDAO = new TelefoneDAO();
+		
+		ArrayList<Telefone> telefones = telefoneDAO.consultarTodos();
+		
+		//Cria simplesmente linhas disponíveis (1 para cada telefone criado)
+		for(Telefone t: telefones) {
+			LinhaTelefonica novaLinha = new LinhaTelefonica();
+			novaLinha.setTelefone(t);
+			linhaDAO.inserir(novaLinha);
+		}
+		
+		System.out.println("#Teste de select");
+		LinhaTelefonica linha1 = linhaDAO.consultar(1);
+		System.out.println("Linha consultada por id (" + 1 + "): " 
+				+ linha1.toString());
+
+		
+		System.out.println("#Teste de select (todos)");
+		ArrayList<LinhaTelefonica> linhas = linhaDAO.consultarTodos();
+		System.out.println("Quantidade de linhas: " + linhas.size());
 		
 	}
 }
