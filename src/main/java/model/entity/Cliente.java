@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
@@ -22,6 +23,14 @@ public class Cliente {
 		this.cpf = cpf;
 		this.endereco = endereco;
 		this.linhas = linhas;
+	}
+	
+	public Cliente(String nome, String cpf, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.endereco = endereco;
+		this.linhas = new ArrayList<LinhaTelefonica>();
 	}
 
 	public int getId() {

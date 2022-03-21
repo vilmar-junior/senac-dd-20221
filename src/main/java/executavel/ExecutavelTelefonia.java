@@ -2,6 +2,8 @@ package executavel;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.dao.ClienteDAO;
 import model.dao.EnderecoDAO;
 import model.dao.LinhaTelefonicaDAO;
@@ -19,7 +21,36 @@ public class ExecutavelTelefonia {
 //		
 //		//TODO Exercicio
 //		testarCrudTelefone();
-		testarCrudLinhaTelefonica();
+		//testarCrudLinhaTelefonica();
+		
+		testarCadastroClienteComJOptionPane();
+	}
+
+	private static void testarCadastroClienteComJOptionPane() {
+		String cpf = JOptionPane.showInputDialog("Informe o CPF (somente números)");
+		String nome = JOptionPane.showInputDialog("Informe o nome completo");
+		
+		//TODO Violando o MVC...
+		EnderecoDAO enderecoDAO = new EnderecoDAO();
+		ClienteDAO clienteDAO = new ClienteDAO();
+		
+		ArrayList<Endereco> enderecos = enderecoDAO.consultarTodos();
+		
+		Endereco enderecoSelecionado = (Endereco) JOptionPane.showInputDialog(null, "Selecione um endereço",
+											"Cadastro de novo cliente",
+											JOptionPane.INFORMATION_MESSAGE,
+											null,
+											enderecos.toArray(),
+											null);
+		
+		Cliente novoCliente = new Cliente(nome, cpf, enderecoSelecionado);
+		novoCliente = clienteDAO.inserir(novoCliente);
+		
+		if(novoCliente.getId() > 0) {
+			JOptionPane.showMessageDialog(null, "Novo cliente salvo!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, "Erro ao salvar cliente","Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private static void testarCrudTelefone() {
