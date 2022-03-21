@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import controller.ClienteController;
+import controller.EnderecoController;
 import model.dao.ClienteDAO;
 import model.dao.EnderecoDAO;
 import model.dao.LinhaTelefonicaDAO;
@@ -24,19 +26,22 @@ public class ExecutavelTelefonia {
 		//testarCrudLinhaTelefonica();
 		
 		testarCadastroClienteComJOptionPane();
+		
+		//TODO exercício (implementar o cadastro com MVC completo)
+		testarCadastroEnderecoComJOptionPane();
 	}
 
 	private static void testarCadastroClienteComJOptionPane() {
 		String cpf = JOptionPane.showInputDialog("Informe o CPF (somente números)");
 		String nome = JOptionPane.showInputDialog("Informe o nome completo");
 		
-		//TODO Violando o MVC...
-		EnderecoDAO enderecoDAO = new EnderecoDAO();
-		ClienteDAO clienteDAO = new ClienteDAO();
+		EnderecoController enderecoController = new EnderecoController();
+		ClienteController clienteController = new ClienteController();
 		
-		ArrayList<Endereco> enderecos = enderecoDAO.consultarTodos();
+		ArrayList<Endereco> enderecos = enderecoController.pesquisarTodos();
 		
-		Endereco enderecoSelecionado = (Endereco) JOptionPane.showInputDialog(null, "Selecione um endereço",
+		Endereco enderecoSelecionado = (Endereco) JOptionPane.showInputDialog(null, 
+											"Selecione um endereço",
 											"Cadastro de novo cliente",
 											JOptionPane.INFORMATION_MESSAGE,
 											null,
@@ -44,19 +49,20 @@ public class ExecutavelTelefonia {
 											null);
 		
 		Cliente novoCliente = new Cliente(nome, cpf, enderecoSelecionado);
-		novoCliente = clienteDAO.inserir(novoCliente);
+		String mensagem = clienteController.salvar(novoCliente);
 		
-		if(novoCliente.getId() > 0) {
-			JOptionPane.showMessageDialog(null, "Novo cliente salvo!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(null, "Erro ao salvar cliente","Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
 	}
-
+	
 	private static void testarCrudTelefone() {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private static void testarCadastroEnderecoComJOptionPane() {
+		// TODO Auto-generated method stub
+	}
+
 
 	private static void testarCrudEndereco() {
 		//Violando o MVC, pois o main vai chamar a camada de modelo
