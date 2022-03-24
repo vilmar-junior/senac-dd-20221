@@ -14,6 +14,7 @@ import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
 import model.entity.Telefone;
+import model.exception.ClienteComLinhaTelefonicaException;
 
 public class ExecutavelTelefonia {
 
@@ -31,16 +32,15 @@ public class ExecutavelTelefonia {
 				clientes.toArray(),
 				null);
 		
-		boolean excluiu = controller.excluir(clienteParaExcluir);
+		String mensagem;
+		try {
+			mensagem = controller.excluir(clienteParaExcluir);
+			JOptionPane.showMessageDialog(null, mensagem);
+		} catch (ClienteComLinhaTelefonicaException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);
+		}
 		
-		//TODO como melhorar essas mensagens?
-		if(excluiu) {
-			JOptionPane.showMessageDialog(null, "Cliente " + clienteParaExcluir.getNome() 
-				+ " (" + clienteParaExcluir.getCpf() + ") foi excluído");
- 		} else {
- 			JOptionPane.showMessageDialog(null, "Cliente não foi excluído", 
- 					"Erro", JOptionPane.WARNING_MESSAGE);
- 		}
+		testarExclusaoClienteComJOptionPane();
 	}
 
 	private static void testarCadastroClienteComJOptionPane() {
