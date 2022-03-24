@@ -18,19 +18,7 @@ import model.entity.Telefone;
 public class ExecutavelTelefonia {
 
 	public static void main(String[] argumentos) {
-//		testarCrudEndereco();
-//		testarCrudCliente();
-//		
-//		//TODO Exercicio
-//		testarCrudTelefone();
-		//testarCrudLinhaTelefonica();
-		
-//		testarCadastroClienteComJOptionPane();
 		testarExclusaoClienteComJOptionPane();
-		
-		//TODO exercício (implementar o cadastro com MVC completo)
-//		testarCadastroEnderecoComJOptionPane();
-		
 	}
 
 	private static void testarExclusaoClienteComJOptionPane() {
@@ -38,20 +26,20 @@ public class ExecutavelTelefonia {
 		ArrayList<Cliente> clientes = controller.consultarTodos();
 		
 		Cliente clienteParaExcluir = (Cliente) JOptionPane.showInputDialog(null, 
-				"Selecione o cliente",
-				"Exclusão de cliente",
-				JOptionPane.INFORMATION_MESSAGE,
-				null,
+				"Selecione o cliente", "Exclusão de cliente",
+				JOptionPane.INFORMATION_MESSAGE, null,
 				clientes.toArray(),
 				null);
 		
 		boolean excluiu = controller.excluir(clienteParaExcluir);
 		
+		//TODO como melhorar essas mensagens?
 		if(excluiu) {
 			JOptionPane.showMessageDialog(null, "Cliente " + clienteParaExcluir.getNome() 
 				+ " (" + clienteParaExcluir.getCpf() + ") foi excluído");
  		} else {
- 			JOptionPane.showMessageDialog(null, "Cliente não foi excluído", "Erro", JOptionPane.WARNING_MESSAGE);
+ 			JOptionPane.showMessageDialog(null, "Cliente não foi excluído", 
+ 					"Erro", JOptionPane.WARNING_MESSAGE);
  		}
 	}
 
