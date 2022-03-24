@@ -86,6 +86,7 @@ public class TelefoneDAO implements BaseDAO<Telefone> {
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		
 		try {
+			stmt.setInt(1, id);
 			ResultSet resultado = stmt.executeQuery();
 			
 			if(resultado.next()) {

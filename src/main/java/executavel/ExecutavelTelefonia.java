@@ -25,10 +25,34 @@ public class ExecutavelTelefonia {
 //		testarCrudTelefone();
 		//testarCrudLinhaTelefonica();
 		
-		testarCadastroClienteComJOptionPane();
+//		testarCadastroClienteComJOptionPane();
+		testarExclusaoClienteComJOptionPane();
 		
 		//TODO exercício (implementar o cadastro com MVC completo)
-		testarCadastroEnderecoComJOptionPane();
+//		testarCadastroEnderecoComJOptionPane();
+		
+	}
+
+	private static void testarExclusaoClienteComJOptionPane() {
+		ClienteController controller = new ClienteController();
+		ArrayList<Cliente> clientes = controller.consultarTodos();
+		
+		Cliente clienteParaExcluir = (Cliente) JOptionPane.showInputDialog(null, 
+				"Selecione o cliente",
+				"Exclusão de cliente",
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				clientes.toArray(),
+				null);
+		
+		boolean excluiu = controller.excluir(clienteParaExcluir);
+		
+		if(excluiu) {
+			JOptionPane.showMessageDialog(null, "Cliente " + clienteParaExcluir.getNome() 
+				+ " (" + clienteParaExcluir.getCpf() + ") foi excluído");
+ 		} else {
+ 			JOptionPane.showMessageDialog(null, "Cliente não foi excluído", "Erro", JOptionPane.WARNING_MESSAGE);
+ 		}
 	}
 
 	private static void testarCadastroClienteComJOptionPane() {

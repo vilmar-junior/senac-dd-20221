@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.bo.ClienteBO;
 import model.entity.Cliente;
 
@@ -27,6 +29,14 @@ public class ClienteController {
 		}
 		
 		return mensagem;
+	}
+
+	public ArrayList<Cliente> consultarTodos() {
+		return bo.consultarTodos();
+	}
+
+	public boolean excluir(Cliente clienteParaExcluir) {
+		return bo.excluir(clienteParaExcluir);
 	}
 	
 }

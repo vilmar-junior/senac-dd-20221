@@ -1,19 +1,14 @@
 package model.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
 import model.entity.Telefone;
-import util.DateUtils;
 
 public class LinhaTelefonicaDAO {
 	public LinhaTelefonica inserir(LinhaTelefonica novaLinha) {
@@ -110,15 +105,16 @@ public class LinhaTelefonicaDAO {
 		linhaTelefonicaConsultada.setId(resultado.getInt("id"));
 		linhaTelefonicaConsultada.setIdCliente(resultado.getInt("id_cliente"));
 
-		Date dataAtivacao = resultado.getDate("dt_ativacao");
-		Date dataDesativacao = resultado.getDate("dt_desativacao");
-
+		Timestamp dataAtivacao = resultado.getTimestamp("dt_ativacao");
+		Timestamp dataDesativacao = resultado.getTimestamp("dt_desativacao");
+		
+		//FONTE: https://stackoverflow.com/questions/23263490/how-to-convert-java-sql-timestamp-to-localdate-java8-java-time
 		if(dataAtivacao != null) {
-			linhaTelefonicaConsultada.setDataAtivacao(DateUtils.converterParaLocalDateTime(dataAtivacao));
+			linhaTelefonicaConsultada.setDataAtivacao(dataAtivacao.toLocalDateTime());
 		}
 
 		if(dataDesativacao != null) {
-			linhaTelefonicaConsultada.setDataDesativacao(DateUtils.converterParaLocalDateTime(dataDesativacao));
+			linhaTelefonicaConsultada.setDataDesativacao(dataDesativacao.toLocalDateTime());
 		}
 
 		TelefoneDAO telefoneDAO = new TelefoneDAO();

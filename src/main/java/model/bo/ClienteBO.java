@@ -1,5 +1,7 @@
 package model.bo;
 
+import java.util.ArrayList;
+
 import model.dao.ClienteDAO;
 import model.entity.Cliente;
 
@@ -24,5 +26,15 @@ public class ClienteBO {
 		}
 		
 		return mensagem;
+	}
+
+	public ArrayList<Cliente> consultarTodos() {
+		return dao.consultarTodos();
+	}
+
+	public boolean excluir(Cliente clienteParaExcluir) {
+		// TODO validar se o cliente tem linha telefônica
+		
+		return dao.remover(clienteParaExcluir.getId());
 	}
 }
