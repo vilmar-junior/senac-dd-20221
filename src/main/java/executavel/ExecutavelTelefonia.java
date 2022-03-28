@@ -15,11 +15,15 @@ import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
 import model.entity.Telefone;
 import model.exception.ClienteComLinhaTelefonicaException;
+import view.TelaCadastroCliente;
 
 public class ExecutavelTelefonia {
 
 	public static void main(String[] argumentos) {
-		testarExclusaoClienteComJOptionPane();
+		//testarExclusaoClienteComJOptionPane();
+		
+		TelaCadastroCliente novaTela = new TelaCadastroCliente();
+		novaTela.setVisible(true);
 	}
 
 	private static void testarExclusaoClienteComJOptionPane() {
