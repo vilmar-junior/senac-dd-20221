@@ -135,4 +135,38 @@ public class EnderecoDAO {
 		
 		return enderecos;
 	}
+	
+	public ArrayList<String> consultarEstadosDoBrasil(){
+		ArrayList<String> estados = new ArrayList<String>();
+		estados.add("Acre");
+		estados.add("Alagoas");
+		estados.add("Amapá");
+		estados.add("Amazonas");
+		estados.add("Bahia");
+		estados.add("Ceará");
+		estados.add("Distrito Federal");
+		estados.add("Espírito Santo");
+		estados.add("Goiás");
+		estados.add("Tocantins");
+		estados.add("Maranhão");
+		estados.add("Mato Grosso");
+		estados.add("Mato Grosso do Sul");
+		estados.add("Minas Gerais");
+		estados.add("Pará");
+		estados.add("Paraná");
+		estados.add("Paraíba");
+		estados.add("Pernambuco");
+		estados.add("Piauí");
+		estados.add("Rio de Janeiro");
+		estados.add("Rio Grande do Sul");
+		estados.add("Rio Grande do Norte");
+		estados.add("Rondônia");
+		estados.add("Roraima");
+		estados.add("Santa Catarina");
+		estados.add("Sergipe");
+		estados.add("São Paulo");
+		
+		return estados;
+	}
+	
 }

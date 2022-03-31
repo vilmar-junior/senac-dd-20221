@@ -11,4 +11,9 @@ public class EnderecoController {
 		EnderecoDAO enderecoDAO = new EnderecoDAO();
 		return enderecoDAO.consultarTodos();
 	}
+	
+	public ArrayList<String> pesquisarEstados(){
+		EnderecoDAO enderecoDAO = new EnderecoDAO();
+		return enderecoDAO.consultarEstadosDoBrasil();
+	}
 }
