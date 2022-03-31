@@ -5,24 +5,26 @@ import java.util.ArrayList;
 import model.dao.ClienteDAO;
 import model.entity.Cliente;
 import model.exception.ClienteComLinhaTelefonicaException;
+import model.exception.ErroAoSalvarClienteException;
 
 public class ClienteBO {
 
 	public ClienteDAO dao = new ClienteDAO();
 	
-	public String salvar(Cliente novo) {
+	public String salvar(Cliente novo) throws ErroAoSalvarClienteException {
 		String mensagem = "";
 		
 		if(dao.cpfJaCadastrado(novo.getCpf())) {
-			mensagem = "CPF informado (" + novo.getCpf() + ") já foi utilizado";
+			throw new ErroAoSalvarClienteException(
+					"CPF informado (" + novo.getCpf() + ") já foi utilizado");
 		}else {
-			//Salvar no banco
 			novo = dao.inserir(novo);
 			
 			if(novo.getId() > 0) {
 				mensagem = "Cliente cadastrado com sucesso (id: " + novo.getId() + ")";
 			}else {
-				mensagem = "Erro ao cadastrar cliente";
+				throw new ErroAoSalvarClienteException(
+						"Erro ao cadastrar cliente, entre em contato com o suporte");
 			}
 		}
 		

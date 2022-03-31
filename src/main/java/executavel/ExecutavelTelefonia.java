@@ -15,6 +15,7 @@ import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
 import model.entity.Telefone;
 import model.exception.ClienteComLinhaTelefonicaException;
+import model.exception.ErroAoSalvarClienteException;
 import view.TelaCadastroCliente;
 
 public class ExecutavelTelefonia {
@@ -65,9 +66,14 @@ public class ExecutavelTelefonia {
 											null);
 		
 		Cliente novoCliente = new Cliente(nome, cpf, enderecoSelecionado);
-		String mensagem = clienteController.salvar(novoCliente);
+		String mensagem;
+		try {
+			mensagem = clienteController.salvar(novoCliente);
+			JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
+		} catch (ErroAoSalvarClienteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),"Alerta", JOptionPane.WARNING_MESSAGE);
+		}
 		
-		JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private static void testarCrudTelefone() {

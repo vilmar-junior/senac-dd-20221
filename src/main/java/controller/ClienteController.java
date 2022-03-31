@@ -7,12 +7,13 @@ import javax.swing.JOptionPane;
 import model.bo.ClienteBO;
 import model.entity.Cliente;
 import model.exception.ClienteComLinhaTelefonicaException;
+import model.exception.ErroAoSalvarClienteException;
 
 public class ClienteController {
 
 	public ClienteBO bo = new ClienteBO();
 	
-	public String salvar(Cliente novo) {
+	public String salvar(Cliente novo) throws ErroAoSalvarClienteException {
 		String mensagem = "";
 		
 		if(novo == null) {
@@ -25,6 +26,8 @@ public class ClienteController {
 			}
 			
 			mensagem += "CPF deve conter 11 dígitos";
+			
+			throw new ErroAoSalvarClienteException(mensagem);
 		}
 		
 		if(mensagem.isEmpty()) {
