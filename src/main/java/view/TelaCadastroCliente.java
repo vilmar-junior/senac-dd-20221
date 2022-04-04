@@ -15,12 +15,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import controller.ClienteController;
 import controller.EnderecoController;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.exception.ErroAoSalvarClienteException;
+import javax.swing.border.SoftBevelBorder;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
+import javax.swing.border.BevelBorder;
 
 public class TelaCadastroCliente extends JFrame {
 
@@ -36,6 +44,13 @@ public class TelaCadastroCliente extends JFrame {
 	private JButton btnLimpar;
 	
 	public TelaCadastroCliente() {
+		try {
+			UIManager.setLookAndFeel( new FlatDarkLaf() );
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		this.setTitle("Cadastro de cliente");
 		this.setBounds(300, 300, 599, 200);
 		
@@ -66,9 +81,14 @@ public class TelaCadastroCliente extends JFrame {
 		ArrayList<Endereco> enderecos = enderecoController.pesquisarTodos();
 		
 		cbEndereco = new JComboBox(enderecos.toArray());
+		
+		
 		cbEndereco.setBounds(76, 71, 500, 20);
 		
 		btnSalvar = new JButton("Salvar");
+		btnSalvar.setBackground(Color.ORANGE);
+		btnSalvar.setBorderPainted(false);
+//		btnSalvar.setOpaque(true);
 		btnSalvar.setBounds(201, 102, 100, 48);
 		
 		btnSalvar.addActionListener(new ActionListener() {
