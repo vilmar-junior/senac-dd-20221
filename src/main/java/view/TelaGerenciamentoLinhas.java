@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.ClienteController;
+import controller.LinhaTelefonicaController;
 import controller.TelefoneController;
 import model.entity.Cliente;
 import model.entity.Telefone;
@@ -26,6 +27,7 @@ public class TelaGerenciamentoLinhas extends JFrame {
 	private JComboBox cbCliente;
 	private ClienteController clienteController = new ClienteController();
 	private TelefoneController telefoneController = new TelefoneController();
+	private LinhaTelefonicaController linhaTelefonicaController = new LinhaTelefonicaController();
 	private JButton btnCriarLinha;
 	private JButton btnLiberarTelefone;
 	
@@ -79,6 +81,9 @@ public class TelaGerenciamentoLinhas extends JFrame {
 						//depois selecionar no cbCliente 
 						btnLiberarTelefone.setEnabled(true);
 						btnCriarLinha.setEnabled(false);
+						
+						Cliente dono = linhaTelefonicaController.obterDonoAtualDoTelefone(telefoneSelecionado.getId());
+						cbCliente.getModel().setSelectedItem(dono);
 					}else {
 						//TODO continuar
 						btnLiberarTelefone.setEnabled(false);
