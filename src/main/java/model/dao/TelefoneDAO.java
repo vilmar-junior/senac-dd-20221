@@ -50,6 +50,7 @@ public class TelefoneDAO implements BaseDAO<Telefone> {
 			stmt.setString(2, telefone.getNumero());
 			stmt.setInt(3, telefone.getTipo());
 			stmt.setBoolean(4, telefone.isAtivo());
+			stmt.setInt(5, telefone.getId());
 			
 			int linhasAfetadas = stmt.executeUpdate();
 			atualizou = linhasAfetadas > 0;

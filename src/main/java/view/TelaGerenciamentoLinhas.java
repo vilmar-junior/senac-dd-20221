@@ -15,7 +15,9 @@ import model.entity.Cliente;
 import model.entity.Telefone;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,6 +32,9 @@ public class TelaGerenciamentoLinhas extends JFrame {
 	private LinhaTelefonicaController linhaTelefonicaController = new LinhaTelefonicaController();
 	private JButton btnCriarLinha;
 	private JButton btnLiberarTelefone;
+	protected Telefone telefoneSelecionado;
+	private ArrayList<Cliente> clientes;
+	private ArrayList<Telefone> telefones;
 	
 	/**
 	 * Launch the application.
@@ -67,16 +72,14 @@ public class TelaGerenciamentoLinhas extends JFrame {
 		lblUsuario.setBounds(20, 60, 150, 14);
 		contentPane.add(lblUsuario);
 		
-		ArrayList<Telefone> telefones = telefoneController.consultarTodos();
+		telefones = telefoneController.consultarTodos();
 		cbTelefone = new JComboBox(telefones.toArray());
 		cbTelefone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Telefone telefoneSelecionado = (Telefone) cbTelefone.getSelectedItem();
+				telefoneSelecionado = (Telefone) cbTelefone.getSelectedItem();
 				
 				if(telefoneSelecionado != null) {
 					if(telefoneSelecionado.isAtivo()) {
-						//TODO continuar
-						
 						//Mostrar o cliente atual da linha (pegar no backend) 
 						//depois selecionar no cbCliente 
 						btnLiberarTelefone.setEnabled(true);
@@ -85,7 +88,6 @@ public class TelaGerenciamentoLinhas extends JFrame {
 						Cliente dono = linhaTelefonicaController.obterDonoAtualDoTelefone(telefoneSelecionado.getId());
 						cbCliente.getModel().setSelectedItem(dono);
 					}else {
-						//TODO continuar
 						btnLiberarTelefone.setEnabled(false);
 						btnCriarLinha.setEnabled(true);
 					}
@@ -97,20 +99,59 @@ public class TelaGerenciamentoLinhas extends JFrame {
 		cbTelefone.setSelectedIndex(-1);
 		contentPane.add(cbTelefone);
 		
-		ArrayList<Cliente> clientes = clienteController.consultarTodos();
+		clientes = clienteController.consultarTodos();
 		cbCliente = new JComboBox(clientes.toArray());
 		cbCliente.setBounds(20, 80, 370, 22);
 		cbCliente.setSelectedIndex(-1);
 		contentPane.add(cbCliente);
 		
 		btnCriarLinha = new JButton("Associar o telefone ao usuário");
+		btnCriarLinha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Cliente clienteSelecionado = (Cliente) cbCliente.getSelectedItem();
+				boolean criou = linhaTelefonicaController
+						.criarLinha(telefoneSelecionado, clienteSelecionado);
+				
+				if(criou) {
+					atualizarCombos();
+					JOptionPane.showMessageDialog(null, "Linha criada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Erro ao criar linha", "Atenção", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		btnCriarLinha.setEnabled(false);
 		btnCriarLinha.setBounds(20, 115, 370, 23);
 		contentPane.add(btnCriarLinha);
 		
 		btnLiberarTelefone = new JButton("Liberar telefone");
+		btnLiberarTelefone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				boolean liberouLinha = 
+						linhaTelefonicaController.liberarLinha(telefoneSelecionado.getId());
+				
+				if(liberouLinha) {
+					JOptionPane.showMessageDialog(null, "Linha liberada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					atualizarCombos();
+				}else {
+					JOptionPane.showMessageDialog(null, "Erro ao liberar linha", "Atenção", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		btnLiberarTelefone.setEnabled(false);
 		btnLiberarTelefone.setBounds(20, 145, 370, 23);
 		contentPane.add(btnLiberarTelefone);
+	}
+
+	protected void atualizarCombos() {
+		//Solução para forçar a atualização dos dados
+		//FONTE: https://community.oracle.com/tech/developers/discussion/2130310/jcombobox-not-visually-updating-after-setselecteditem
+		telefones = telefoneController.consultarTodos();
+		cbTelefone.setModel(new DefaultComboBoxModel(telefones.toArray()));
+		cbTelefone.repaint();
+		
+		clientes = clienteController.consultarTodos();
+		cbCliente.setModel(new DefaultComboBoxModel(clientes.toArray()));
+		cbCliente.repaint();
 	}
 }

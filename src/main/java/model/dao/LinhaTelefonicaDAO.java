@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import model.entity.Cliente;
 import model.entity.LinhaTelefonica;
 import model.entity.Telefone;
 
@@ -163,5 +165,51 @@ public class LinhaTelefonicaDAO {
 		}
 
 		return linhasDoCliente;
+	}
+
+	public Cliente obterDonoAtualDoTelefone(int idTelefone) {
+		Cliente dono = null;
+		Connection conexao = Banco.getConnection();
+		String sql = " SELECT l.id_cliente FROM LINHA_TELEFONICA l "
+				+ " WHERE l.id_telefone = ? "
+				+ " AND dt_desativacao is null ";
+		
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+
+		try {
+			stmt.setInt(1, idTelefone);
+			ResultSet resultado = stmt.executeQuery();
+			while(resultado.next()) {
+				int idCliente = resultado.getInt(1);
+				ClienteDAO cliDAO = new ClienteDAO();
+				dono = cliDAO.consultar(idCliente);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar dono atual do telefone (" + idTelefone + "). Causa:" + e.getMessage());
+		}
+		
+		return dono;
+	}
+
+	public boolean desativarLinhaAtual(int idTelefone) {
+		boolean desativou = false;
+		Connection conexao = Banco.getConnection();
+
+		String sql = " UPDATE LINHA_TELEFONICA l "
+				+ " SET dt_desativacao = NOW() "
+				+ " WHERE l.id_telefone = ? "
+				+ " AND dt_desativacao IS NULL ";
+		
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+
+		try {
+			stmt.setInt(1, idTelefone);
+			int linhasAfetadas = stmt.executeUpdate();
+			desativou = linhasAfetadas > 0;
+		} catch (SQLException e) {
+			System.out.println("Erro ao desativar linha atual do telefone (" + idTelefone + "). Causa:" + e.getMessage());
+		}
+		
+		return desativou;
 	}
 }
