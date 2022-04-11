@@ -53,6 +53,10 @@ public class ClienteBO {
 		
 		return excluiu;
 	}
+
+	public Cliente consultarPorCPF(String cpf) {
+		return dao.consultarPorCPF(cpf);
+	}
 	
 	
 	

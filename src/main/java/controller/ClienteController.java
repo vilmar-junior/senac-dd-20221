@@ -7,10 +7,12 @@ import javax.swing.JOptionPane;
 import model.bo.ClienteBO;
 import model.entity.Cliente;
 import model.exception.ClienteComLinhaTelefonicaException;
+import model.exception.CpfInvalidoException;
 import model.exception.ErroAoSalvarClienteException;
 
 public class ClienteController {
 
+	private static final int QUANTIDADE_DIGITOS_CPF = 11;
 	public ClienteBO bo = new ClienteBO();
 	
 	public String salvar(Cliente novo) throws ErroAoSalvarClienteException {
@@ -50,6 +52,14 @@ public class ClienteController {
 		}
 		
 		return mensagem;
+	}
+
+	public Cliente consultarPorCPF(String cpf) throws CpfInvalidoException {
+		if(cpf == null || cpf.isEmpty() || cpf.trim().length() != QUANTIDADE_DIGITOS_CPF) {
+			throw new CpfInvalidoException("Informe um CPF válido");
+		}
+		
+		return bo.consultarPorCPF(cpf);
 	}
 	
 }

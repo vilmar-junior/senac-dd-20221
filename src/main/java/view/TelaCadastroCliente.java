@@ -22,6 +22,7 @@ import controller.ClienteController;
 import controller.EnderecoController;
 import model.entity.Cliente;
 import model.entity.Endereco;
+import model.exception.CpfInvalidoException;
 import model.exception.ErroAoSalvarClienteException;
 import javax.swing.border.SoftBevelBorder;
 
@@ -29,11 +30,15 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.border.BevelBorder;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class TelaCadastroCliente extends JFrame {
 
 	private ClienteController clienteController = new ClienteController();
 	private EnderecoController enderecoController = new EnderecoController();
+	private Cliente cliente; 
+	
 	private JLabel lblNome;
 	private JLabel lblCpf;
 	private JLabel lblEndereco;
@@ -44,13 +49,6 @@ public class TelaCadastroCliente extends JFrame {
 	private JButton btnLimpar;
 	
 	public TelaCadastroCliente() {
-		try {
-			UIManager.setLookAndFeel( new FlatDarkLaf() );
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		this.setTitle("Cadastro de cliente");
 		this.setBounds(300, 300, 599, 200);
 		
@@ -73,6 +71,19 @@ public class TelaCadastroCliente extends JFrame {
 		lblCpf.setBounds(10, 10, 100, 20);
 		
 		txtCpf = new JTextField();
+		txtCpf.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				try {
+					cliente = clienteController.consultarPorCPF(txtCpf.getText());
+					preencherCliente();
+					lblCpf.setForeground(Color.BLACK);
+				} catch (CpfInvalidoException e) {
+					lblCpf.setForeground(Color.RED);
+					cliente = new Cliente();
+				}
+			}
+		});
 		txtCpf.setBounds(76, 10, 500, 20);
 		
 		lblEndereco = new JLabel("Endereço:");
@@ -81,15 +92,14 @@ public class TelaCadastroCliente extends JFrame {
 		ArrayList<Endereco> enderecos = enderecoController.pesquisarTodos();
 		
 		cbEndereco = new JComboBox(enderecos.toArray());
-		
-		
+		cbEndereco.setSelectedIndex(-1);
 		cbEndereco.setBounds(76, 71, 500, 20);
 		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBackground(Color.ORANGE);
+		btnSalvar.setBackground(Color.lightGray);
 		btnSalvar.setBorderPainted(false);
 //		btnSalvar.setOpaque(true);
-		btnSalvar.setBounds(201, 102, 100, 48);
+		btnSalvar.setBounds(190, 102, 100, 48);
 		
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,6 +117,8 @@ public class TelaCadastroCliente extends JFrame {
 		this.getContentPane().add(btnSalvar);
 		
 		btnLimpar = new JButton("Limpar");
+		btnLimpar.setBorderPainted(false);
+		btnLimpar.setBackground(Color.LIGHT_GRAY);
 		btnLimpar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -135,6 +147,18 @@ public class TelaCadastroCliente extends JFrame {
 		});
 		btnLimpar.setBounds(301, 102, 100, 48);
 		getContentPane().add(btnLimpar);
+	}
+
+	protected void preencherCliente() {
+		
+		if(cliente != null) {
+			this.txtNome.setText(cliente.getNome());
+			this.txtCpf.setText(cliente.getCpf());
+			this.cbEndereco.getModel().setSelectedItem(cliente.getEndereco());
+			this.setTitle("EDIÇÃO de cliente");
+		}else {
+			this.setTitle("CADASTRO de cliente");
+		}
 	}
 
 	protected void limparCampos() {
