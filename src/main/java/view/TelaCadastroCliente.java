@@ -56,7 +56,7 @@ public class TelaCadastroCliente extends JFrame {
 		
 		//Cria os componentes da tela
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 10, 100, 20);
+		lblNome.setBounds(10, 40, 100, 20);
 		
 		txtNome = new JTextField();
 		txtNome.addKeyListener(new KeyAdapter() {
@@ -67,13 +67,13 @@ public class TelaCadastroCliente extends JFrame {
 				}
 			}
 		});
-		txtNome.setBounds(76, 10, 500, 20);
+		txtNome.setBounds(76, 40, 500, 20);
 		
 		lblCpf = new JLabel("CPF:");
-		lblCpf.setBounds(10, 40, 100, 20);
+		lblCpf.setBounds(10, 10, 100, 20);
 		
 		txtCpf = new JTextField();
-		txtCpf.setBounds(76, 40, 500, 20);
+		txtCpf.setBounds(76, 10, 500, 20);
 		
 		lblEndereco = new JLabel("Endereço:");
 		lblEndereco.setBounds(10, 71, 100, 20);
