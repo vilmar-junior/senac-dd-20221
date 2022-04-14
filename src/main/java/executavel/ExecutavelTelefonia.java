@@ -1,6 +1,7 @@
 package executavel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -29,7 +30,7 @@ public class ExecutavelTelefonia {
 
 	private static void testarExclusaoClienteComJOptionPane() {
 		ClienteController controller = new ClienteController();
-		ArrayList<Cliente> clientes = controller.consultarTodos();
+		List<Cliente> clientes = controller.consultarTodos();
 		
 		Cliente clienteParaExcluir = (Cliente) JOptionPane.showInputDialog(null, 
 				"Selecione o cliente", "Exclusão de cliente",

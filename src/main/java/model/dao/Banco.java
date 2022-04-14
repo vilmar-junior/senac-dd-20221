@@ -47,8 +47,7 @@ public class Banco {
 	
 	public static Statement getStatement(Connection conn){
 		try {
-			Statement stmt = conn.createStatement();
-			return stmt;
+			return conn.createStatement();
 		} catch (SQLException e) {
 			System.out.println("Erro ao obter o Statement.");
 			System.out.println("Erro: " + e.getMessage());
@@ -69,8 +68,7 @@ public class Banco {
 	
 	public static PreparedStatement getPreparedStatement(Connection conn, String sql){
 		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			return stmt;
+			return conn.prepareStatement(sql);
 		} catch (Exception e) {
 			System.out.println("Erro ao obter o PreparedStatement.");
 			System.out.println("Erro: " + e.getMessage());
@@ -80,8 +78,7 @@ public class Banco {
 	
 	public static PreparedStatement getPreparedStatementWithPk(Connection conn, String sql){
 		try {
-			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			return stmt;
+			return conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		} catch (Exception e) {
 			System.out.println("Erro ao obter o PreparedStatement.");
 			System.out.println("Erro: " + e.getMessage());

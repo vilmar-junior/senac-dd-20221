@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ public class TelaGerenciamentoLinhas extends JFrame {
 	private JButton btnCriarLinha;
 	private JButton btnLiberarTelefone;
 	protected Telefone telefoneSelecionado;
-	private ArrayList<Cliente> clientes;
+	private List<Cliente> clientes;
 	private ArrayList<Telefone> telefones;
 	
 	/**

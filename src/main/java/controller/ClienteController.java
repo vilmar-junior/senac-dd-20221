@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -39,7 +40,7 @@ public class ClienteController {
 		return mensagem;
 	}
 
-	public ArrayList<Cliente> consultarTodos() {
+	public List<Cliente> consultarTodos() {
 		return bo.consultarTodos();
 	}
 
@@ -55,11 +56,16 @@ public class ClienteController {
 	}
 
 	public Cliente consultarPorCPF(String cpf) throws CpfInvalidoException {
-		if(cpf == null || cpf.isEmpty() || cpf.trim().length() != QUANTIDADE_DIGITOS_CPF) {
+		if(cpf == null || cpf.isEmpty()) {
 			throw new CpfInvalidoException("Informe um CPF válido");
 		}
 		
-		return bo.consultarPorCPF(cpf);
+		String cpfSemMascara = cpf.replace(".", "").replace("-", ""); 
+		
+		if(cpfSemMascara.trim().length() != QUANTIDADE_DIGITOS_CPF) {
+			throw new CpfInvalidoException("Informe um CPF válido (11 números)");
+		}
+		
+		return bo.consultarPorCPF(cpfSemMascara);
 	}
-	
 }
