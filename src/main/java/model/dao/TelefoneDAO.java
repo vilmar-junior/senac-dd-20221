@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.entity.Cliente;
 import model.entity.Telefone;
 
 public class TelefoneDAO implements BaseDAO<Telefone> {

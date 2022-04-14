@@ -78,22 +78,22 @@ public class TelaListagemTelefones {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tabelaTelefones, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(178)
 					.addComponent(btnAtualizar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(181))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tabelaTelefones, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+					.addGap(8))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(btnAtualizar, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabelaTelefones, GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-					.addGap(2))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(tabelaTelefones, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		frmTelefonesCadastrados.getContentPane().setLayout(groupLayout);
 	}
