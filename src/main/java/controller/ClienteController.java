@@ -19,9 +19,11 @@ public class ClienteController {
 	public String salvar(Cliente novo) throws ErroAoSalvarClienteException {
 		String mensagem = "";
 		
+		novo.setCpf(novo.getCpf().trim().replace("-","").replace(".", ""));
+		
 		if(novo == null) {
 			mensagem = "Informe todos os dados do novo cliente";
-		}else if(novo.getCpf().trim().length() != 11){
+		}else if(novo.getCpf().length() != 11){
 			try {
 				Long.parseLong(novo.getCpf());
 			} catch (NumberFormatException excecao) {

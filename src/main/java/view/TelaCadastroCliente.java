@@ -52,7 +52,7 @@ public class TelaCadastroCliente extends JFrame {
 	private JButton btnSalvar;
 	private JButton btnLimpar;
 	
-	public TelaCadastroCliente() {
+	public TelaCadastroCliente(Cliente clienteSelecionado) {
 		this.setTitle("Cadastro de cliente");
 		this.setBounds(300, 300, 530, 150);
 		
@@ -78,7 +78,6 @@ public class TelaCadastroCliente extends JFrame {
 					lblCpf.setForeground(Color.BLACK);
 				} catch (CpfInvalidoException e) {
 					lblCpf.setForeground(Color.RED);
-					cliente = null;
 					preencherCliente();
 				}
 			}
@@ -149,12 +148,17 @@ public class TelaCadastroCliente extends JFrame {
 			}
 		});
 		getContentPane().add(btnLimpar, "cell 3 3,alignx left,growy");
+		
+		this.cliente = clienteSelecionado;
+		this.preencherCliente();
 	}
 
 	protected void preencherCliente() {
-		if(cliente != null) {
-			int VaR_errada;
-			
+		if(cliente == null) {
+			cliente = new Cliente();
+		}
+		
+		if(cliente.getId() > 0) {
 			this.txtNome.setText(cliente.getNome());
 			this.txtCpf.setText(cliente.getCpf());
 			this.cbEndereco.getModel().setSelectedItem(cliente.getEndereco());
@@ -167,7 +171,7 @@ public class TelaCadastroCliente extends JFrame {
 
 	protected void limparCampos() {
 		this.txtNome.setText("");
-		this.txtCpf.setText("");
+		//this.txtCpf.setText("");
 		this.cbEndereco.setSelectedItem(null);
 	}
 	

@@ -53,7 +53,7 @@ public class ClienteBO {
 	public boolean excluir(Cliente clienteParaExcluir) throws ClienteComLinhaTelefonicaException {
 		boolean excluiu;
 
-		if(clienteParaExcluir.getLinhas().size() > 0) {
+		if(!clienteParaExcluir.getLinhas().isEmpty()){
 			throw new ClienteComLinhaTelefonicaException("Cliente informado não pode ser excluído,"
 					+ " pois possui linha(s) telefônica(s)");
 		}else {

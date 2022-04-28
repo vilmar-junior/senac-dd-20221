@@ -24,7 +24,7 @@ public class ExecutavelTelefonia {
 	public static void main(String[] argumentos) {
 		//testarExclusaoClienteComJOptionPane();
 		
-		TelaCadastroCliente novaTela = new TelaCadastroCliente();
+		TelaCadastroCliente novaTela = new TelaCadastroCliente(null);
 		novaTela.setVisible(true);
 	}
 
