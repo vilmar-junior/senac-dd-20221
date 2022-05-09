@@ -62,6 +62,7 @@ public class PainelListagemCliente extends JPanel{
 		JButton btnNovoCliente = new JButton("Novo Cliente");
 		btnNovoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO trocar: a TelaPrincipal é que deve trocar para um painel de cadastro de clientes
 				TelaCadastroCliente telaCadastro = new TelaCadastroCliente(null);
 				telaCadastro.setVisible(true);
 			}
@@ -70,12 +71,6 @@ public class PainelListagemCliente extends JPanel{
 		this.add(btnNovoCliente);
 		
 		btnEditarCliente = new JButton("Editar Cliente");
-		btnEditarCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaCadastroCliente telaEdicao = new TelaCadastroCliente(clienteSelecionado);
-				telaEdicao.setVisible(true);
-			}
-		});
 		btnEditarCliente.setEnabled(false);
 		btnEditarCliente.setBounds(310, 420, 120, 30);
 		this.add(btnEditarCliente);
@@ -136,5 +131,13 @@ public class PainelListagemCliente extends JPanel{
 			
 			modelo.addRow(novaLinha);
 		}
+	}
+
+	public JButton getBtnEditarCliente() {
+		return btnEditarCliente;
+	}
+
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
 	}
 }

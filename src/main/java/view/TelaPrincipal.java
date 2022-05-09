@@ -73,7 +73,17 @@ public class TelaPrincipal {
 		menuItemConsultarClientes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/icons8-lista-com-marcadores.png")));
 		menuItemConsultarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PainelListagemCliente painelListagemClientes = new PainelListagemCliente();
+				final PainelListagemCliente painelListagemClientes = new PainelListagemCliente();
+				
+				painelListagemClientes.getBtnEditarCliente().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						PainelCadastroCliente painelEdicao = 
+								new PainelCadastroCliente(painelListagemClientes.getClienteSelecionado());
+						frmTelaPrincipal.setContentPane(painelEdicao);
+						frmTelaPrincipal.revalidate();	
+					}
+				});
 				
 				frmTelaPrincipal.setContentPane(painelListagemClientes);
 				frmTelaPrincipal.revalidate();	
