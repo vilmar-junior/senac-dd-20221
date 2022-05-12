@@ -1,0 +1,17 @@
+package model.bo.exercicio1;
+
+import java.util.ArrayList;
+
+import model.dao.exercicio1.ClienteDAO;
+import model.entity.exercicio1.Cliente;
+
+public class ClienteBO {
+
+	private ClienteDAO dao;
+
+	public ArrayList<Cliente> pesquisarTodos() {
+		return dao.consultarTodos();
+	}
+
+	// TODO criar os métodos para chamar os métodos PÚBLICOS no ClienteDAO
+}

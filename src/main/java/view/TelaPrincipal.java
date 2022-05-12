@@ -10,11 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
+
+import view.aula10.TelaSobreAutor;
+
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class TelaPrincipal {
 
 	private JFrame frmTelaPrincipal;
+	private JMenuItem menuItemConsultarClientes;
 
 	/**
 	 * Launch the application.
@@ -69,19 +75,34 @@ public class TelaPrincipal {
 		});
 		menuCliente.add(menuItemCadastroCliente);
 		
-		JMenuItem menuItemConsultarClientes = new JMenuItem("Consultar");
+		menuItemConsultarClientes = new JMenuItem("Consultar");
+		menuItemConsultarClientes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
 		menuItemConsultarClientes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/icons8-lista-com-marcadores.png")));
 		menuItemConsultarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final PainelListagemCliente painelListagemClientes = new PainelListagemCliente();
 				
+				//Registra um ouvinte para o clique de um botão do painel
+				//Esse evento será tratado pela tela pai (TelaPrincipal)
 				painelListagemClientes.getBtnEditarCliente().addActionListener(new ActionListener() {
+					private PainelCadastroCliente painelEdicao;
+
 					public void actionPerformed(ActionEvent e) {
 						
-						PainelCadastroCliente painelEdicao = 
-								new PainelCadastroCliente(painelListagemClientes.getClienteSelecionado());
+						painelEdicao = new PainelCadastroCliente(painelListagemClientes.getClienteSelecionado());
 						frmTelaPrincipal.setContentPane(painelEdicao);
 						frmTelaPrincipal.revalidate();	
+						
+						painelEdicao.getBtnSalvar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								//Salva o cliente
+								painelEdicao.salvar();
+								
+								//Simula um clique na opção de menu "Clientes > Consultar"
+								menuItemConsultarClientes.doClick();
+							}
+						});
+						
 					}
 				});
 				
@@ -90,6 +111,49 @@ public class TelaPrincipal {
 			}
 		});
 		menuCliente.add(menuItemConsultarClientes);
+		
+		JMenu menuSobre = new JMenu("Sobre (teste de listener ao fechar janela)");
+		menuSobre.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/icons8-сharlie-сhaplin.png")));
+		menuBar.add(menuSobre);
+		
+		JMenuItem menuItemSobre = new JMenuItem("Sobre (teste de listener disparado ao fechar janela)");
+		menuItemSobre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaSobreAutor telaSobre = new TelaSobreAutor();
+				telaSobre.setVisible(true);
+				telaSobre.addWindowListener(new WindowListener() {
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+					
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+					
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+					
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+					
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+					
+					public void windowClosed(WindowEvent e) {
+						//Método que foi disparado quando a janela foi fechada
+						frmTelaPrincipal.setTitle("TELA SOBRE FOI FECHADA");
+					}
+					
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+					}
+				});
+			}
+		});
+		menuSobre.add(menuItemSobre);
 	}
 
 }

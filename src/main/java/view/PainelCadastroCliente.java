@@ -110,11 +110,6 @@ public class PainelCadastroCliente extends JPanel {
 		btnSalvar.setBackground(Color.lightGray);
 		btnSalvar.setBorderPainted(false);
 		
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				salvar();
-			}
-		});
 		this.add(btnSalvar, "cell 2 3,grow");
 		
 		btnLimpar = new JButton("Limpar");
@@ -186,5 +181,9 @@ public class PainelCadastroCliente extends JPanel {
 			JOptionPane.showMessageDialog(null, e.getMessage(),
 					"Atenção", JOptionPane.WARNING_MESSAGE);
 		}
+	}
+
+	public JButton getBtnSalvar() {
+		return btnSalvar;
 	}
 }

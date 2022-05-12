@@ -1,25 +1,22 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ClienteController;
 import model.entity.Cliente;
-import model.entity.Telefone;
 import model.exception.ClienteComLinhaTelefonicaException;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class PainelListagemCliente extends JPanel{
 
@@ -42,13 +39,16 @@ public class PainelListagemCliente extends JPanel{
 		this.setLayout(null);
 
 		tblClientes = new JTable();
+		JScrollPane painelTabela = new JScrollPane(tblClientes);
+		painelTabela.setSize(1000, 400);
+		painelTabela.setLocation(10, 10);
 		tblClientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				int indiceSelecionado = tblClientes.getSelectedRow();
 				
-				if(indiceSelecionado > 0) {
-					clienteSelecionado = clientes.get(indiceSelecionado - 1);
+				if(indiceSelecionado >= 0) {
+					clienteSelecionado = clientes.get(indiceSelecionado);
 				}else {
 					clienteSelecionado = null;
 				}
@@ -57,7 +57,7 @@ public class PainelListagemCliente extends JPanel{
 			}
 		});
 		tblClientes.setBounds(10, 10, 1000, 400);
-		this.add(tblClientes);
+		this.add(painelTabela);
 		
 		JButton btnNovoCliente = new JButton("Novo Cliente");
 		btnNovoCliente.addActionListener(new ActionListener() {
@@ -78,6 +78,7 @@ public class PainelListagemCliente extends JPanel{
 		btnExcluirCliente = new JButton("Excluir Cliente");
 		btnExcluirCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
 				String mensagem;
 				try {
 					mensagem = controller.excluir(clienteSelecionado);
@@ -115,9 +116,8 @@ public class PainelListagemCliente extends JPanel{
 
 	protected void atualizarTabela() {
 		clientes = controller.consultarTodos();
-		tblClientes.setModel(new DefaultTableModel(new String[][] { 
-			{ "Id", "Nome", "CPF", "Nº de linhas telefônicas" }, },
-			new String[] { "Id", "Nome", "CPF", "Nº de linhas telefônicas" }));
+		tblClientes.setModel(new DefaultTableModel(new String[] { "Id", "Nome", "CPF", 
+				"Nº de linhas telefônicas" }, 0));
 		
 		DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
 		
