@@ -50,15 +50,10 @@ public class ClienteController {
 	}
 
 	public List<Cliente> consultarComSeletor(TelefoneSeletor seletor) {
-		
 		if(seletor.getCpfDonoTelefone() != null) {
-			String cpfSemPontuacao = seletor.getCpfDonoTelefone()
-					.replace(".","")
-					.replace("-", "");
-			
+			String cpfSemPontuacao = seletor.getCpfDonoTelefone().replaceAll("[^0-9]", "");
 			seletor.setCpfDonoTelefone(cpfSemPontuacao.trim());
 		}
-		
 		
 		return bo.consultarComSeletor(seletor);
 	}
