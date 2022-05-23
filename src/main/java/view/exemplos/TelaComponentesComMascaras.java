@@ -99,12 +99,13 @@ public class TelaComponentesComMascaras extends JFrame {
 		lblValorEmReais.setBounds(199, 83, 61, 14);
 		contentPane.add(lblValorEmReais);
 
+		//Componente importado manualmente (importar a classe no projeto)
 		JNumberFormatField txtValorEmReais = new JNumberFormatField(2);
 		txtValorEmReais.setBounds(270, 86, 155, 20);
 		contentPane.add(txtValorEmReais);
 		
 		btnPegarValoresEm = new JButton("Pegar valores em String");
-		btnPegarValoresEm.setIcon(new ImageIcon(TelaComponentesComMascaras.class.getResource("/icons/icons8-confiança.png")));
+		btnPegarValoresEm.setIcon(new ImageIcon(TelaComponentesComMascaras.class.getResource("/icones/icons8-confiança.png")));
 		btnPegarValoresEm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String textoCompleto = "Placa (sem máscara): " + formattedTextFieldPlaca.getText().replace("-","") + "\n";
@@ -181,7 +182,7 @@ public class TelaComponentesComMascaras extends JFrame {
 			contentPane.add(lblExemploTextArea);
 			
 			textAreaValoresCamposComMascara = new JTextArea();
-			textAreaValoresCamposComMascara.setEnabled(false);
+			//textAreaValoresCamposComMascara.setEnabled(false);
 			textAreaValoresCamposComMascara.setBounds(35, 182, 390, 118);
 			contentPane.add(textAreaValoresCamposComMascara);
 		} catch (ParseException e) {
