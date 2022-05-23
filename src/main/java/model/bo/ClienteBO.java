@@ -7,6 +7,7 @@ import model.dao.ClienteDAO;
 import model.entity.Cliente;
 import model.exception.ClienteComLinhaTelefonicaException;
 import model.exception.ErroAoSalvarClienteException;
+import model.seletor.TelefoneSeletor;
 
 public class ClienteBO {
 
@@ -40,6 +41,10 @@ public class ClienteBO {
 		return mensagem;
 	}
 
+	public List<Cliente> consultarComSeletor(TelefoneSeletor seletor) {
+		return dao.consultarComSeletor(seletor);
+	}
+	
 	public List<Cliente> consultarTodos() {
 		return dao.consultarTodos();
 	}

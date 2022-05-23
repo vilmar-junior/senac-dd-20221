@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.LinhaTelefonica;
+import model.seletor.TelefoneSeletor;
 
 public class ClienteDAO implements BaseDAO<Cliente>{
 	
@@ -119,6 +120,62 @@ public class ClienteDAO implements BaseDAO<Cliente>{
 		return clienteConsultado;
 	}
 
+	public ArrayList<Cliente> consultarComSeletor(TelefoneSeletor seletor){
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		Connection conexao = Banco.getConnection();
+		String sql = " SELECT * FROM CLIENTE ";
+		
+		if(seletor.temFiltro()) {
+			sql = preencherFiltros(sql, seletor);
+		}
+		
+		if(seletor.temPaginacao()) {
+			sql += " LIMIT " + seletor.getLimite() + " OFFSET " + seletor.getOffset(); 
+		}
+		
+		
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			while(resultado.next()) {
+				Cliente clienteConsultado = construirDoResultSet(resultado);
+				clientes.add(clienteConsultado);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar os clientes usando filtro. Causa:" + e.getMessage());
+		}
+		
+		return clientes;
+	}
+	
+	private String preencherFiltros(String sql, TelefoneSeletor seletor) {
+		boolean primeiro = true;
+		sql += " WHERE ";
+		
+		if(seletor.getCpfDonoTelefone() != null && !seletor.getCpfDonoTelefone().isEmpty()) {
+			if(!primeiro) {
+				sql = " AND ";
+			}
+			
+			sql += " CPF = " + seletor.getCpfDonoTelefone();
+			primeiro = false;
+		}
+		
+		if(seletor.getNomeDonoTelefone() != null 
+				&& !seletor.getNomeDonoTelefone().trim().isEmpty()) {
+			if(!primeiro) {
+				sql = " AND ";
+			}
+			
+			sql += " UPPER(NOME) LIKE '%" + seletor.getNomeDonoTelefone().toUpperCase() + "%'";
+			primeiro = false;
+		}
+		
+		return sql;
+	}
+
 	public ArrayList<Cliente> consultarTodos(){
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		Connection conexao = Banco.getConnection();
@@ -180,5 +237,24 @@ public class ClienteDAO implements BaseDAO<Cliente>{
 		}
 		
 		return clienteConsultado;
+	}
+
+	public int contarClientes() {
+		Connection conexao = Banco.getConnection();
+		String sql = " SELECT count(id) FROM CLIENTE";
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		int total = 0;
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			if(resultado.next()) {
+				total = resultado.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao total de clientes. Causa:" + e.getMessage());
+		}
+		
+		return total;
 	}
 }
