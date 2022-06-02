@@ -57,12 +57,14 @@ public class TelaComDatas {
 		lblData.setBounds(10, 64, 40, 20);
 		frame.getContentPane().add(lblData);
 
-		// Configurações da parte de DATAS do componente
+		// Configurações da parte de DATAS do componente (OPCIONAL)
 		DatePickerSettings dateSettings = new DatePickerSettings();
 		dateSettings.setAllowKeyboardEditing(false);
 		
+		TimePickerSettings timeSettings = new TimePickerSettings();
+		timeSettings.setAllowKeyboardEditing(false);
 		
-		final DateTimePicker dataTeste = new DateTimePicker(dateSettings, null);
+		final DateTimePicker dataTeste = new DateTimePicker(dateSettings, timeSettings);
 		
 		dataTeste.setBounds(80, 60, 540, 45);
 		frame.getContentPane().add(dataTeste);
