@@ -15,10 +15,14 @@ import javax.swing.JOptionPane;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 public class TelaComDatas {
 
 	private JFrame frame;
+	private JLabel lblDataSelecionada;
+	private JLabel lblHoraSelecionada;
+	private JLabel lblDataHoraSelecionada;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -56,7 +60,8 @@ public class TelaComDatas {
 		// Configurações da parte de DATAS do componente
 		DatePickerSettings dateSettings = new DatePickerSettings();
 		dateSettings.setAllowKeyboardEditing(false);
-
+		
+		
 		final DateTimePicker dataTeste = new DateTimePicker(dateSettings, null);
 		
 		dataTeste.setBounds(80, 60, 540, 45);
@@ -69,19 +74,46 @@ public class TelaComDatas {
 				LocalDate dataSelecionada = dataTeste.getDatePicker().getDate();
 				LocalTime horaSelecionada = dataTeste.getTimePicker().getTime();
 				
-				LocalDateTime dataComHora = LocalDateTime.of(dataSelecionada, horaSelecionada);
-
-				JOptionPane.showMessageDialog(null, "Data selecionada: " + dataSelecionada.toString());
-				JOptionPane.showMessageDialog(null, "Horário selecionado: " + horaSelecionada.toString());
-				JOptionPane.showMessageDialog(null, "Data e hora selecionada: " + dataComHora.toString());
-
-				// Preenche uma data utilizando os dois campos do componente
-				Date dataCompleta = new Date(dataSelecionada.getYear(), dataSelecionada.getMonthValue(),
-						dataSelecionada.getDayOfMonth(), horaSelecionada.getHour(), horaSelecionada.getMinute(),
-						horaSelecionada.getSecond());
+				//TODO validar adequadamente
+				if(dataSelecionada != null && horaSelecionada != null) {
+					LocalDateTime dataComHora = LocalDateTime.of(dataSelecionada, horaSelecionada);
+					lblDataHoraSelecionada.setText(dataComHora.toString());
+				}
+				
+				if(dataSelecionada != null) {
+					lblDataSelecionada.setText(dataSelecionada.toString());
+				}
+				
+				if(horaSelecionada != null) {
+					lblHoraSelecionada.setText(horaSelecionada.toString());
+				}
 			}
 		});
 		btnPegarData.setBounds(238, 149, 181, 23);
 		frame.getContentPane().add(btnPegarData);
+		
+		JLabel lbl1 = new JLabel("Data selecionada:");
+		lbl1.setBounds(80, 211, 168, 14);
+		frame.getContentPane().add(lbl1);
+		
+		JLabel lbl3 = new JLabel("Hora selecionada:");
+		lbl3.setBounds(80, 250, 168, 14);
+		frame.getContentPane().add(lbl3);
+		
+		JLabel lbl1_1_1 = new JLabel("Data e Hora selecionada:");
+		lbl1_1_1.setBounds(80, 289, 168, 14);
+		frame.getContentPane().add(lbl1_1_1);
+		
+		lblDataSelecionada = new JLabel("");
+		lblDataSelecionada.setBounds(258, 211, 289, 14);
+		frame.getContentPane().add(lblDataSelecionada);
+		
+		lblHoraSelecionada = new JLabel("");
+		lblHoraSelecionada.setBounds(258, 250, 289, 14);
+		frame.getContentPane().add(lblHoraSelecionada);
+		
+		lblDataHoraSelecionada = new JLabel("");
+		lblDataHoraSelecionada.setBounds(258, 289, 289, 14);
+		frame.getContentPane().add(lblDataHoraSelecionada);
 	}
 }
