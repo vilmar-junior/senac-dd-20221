@@ -66,8 +66,8 @@ public class TelaComDatas {
 		timeSettings.setAllowKeyboardEditing(false);
 		
 		//Configuração para mostrar horas de 08:00 a 18:00, com intervalos de 15 minutos
-		LocalTime horaInicial = LocalTime.of(8, 0);
-		LocalTime horaFinal = LocalTime.of(18, 0);
+		LocalTime horaInicial = LocalTime.of(8, 0); //08:00
+		LocalTime horaFinal = LocalTime.of(18, 0);  //18:00
 		timeSettings.generatePotentialMenuTimes(TimeIncrement.FifteenMinutes, horaInicial, horaFinal);
 		
 		
