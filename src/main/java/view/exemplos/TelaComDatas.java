@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 public class TelaComDatas {
 
@@ -64,10 +65,18 @@ public class TelaComDatas {
 		TimePickerSettings timeSettings = new TimePickerSettings();
 		timeSettings.setAllowKeyboardEditing(false);
 		
+		//Configuração para mostrar horas de 08:00 a 18:00, com intervalos de 15 minutos
+		LocalTime horaInicial = LocalTime.of(8, 0);
+		LocalTime horaFinal = LocalTime.of(18, 0);
+		timeSettings.generatePotentialMenuTimes(TimeIncrement.FifteenMinutes, horaInicial, horaFinal);
+		
+		
 		final DateTimePicker dataTeste = new DateTimePicker(dateSettings, timeSettings);
 		
 		dataTeste.setBounds(80, 60, 540, 45);
 		frame.getContentPane().add(dataTeste);
+		
+		
 
 		JButton btnPegarData = new JButton("Criar data");
 		btnPegarData.addActionListener(new ActionListener() {
